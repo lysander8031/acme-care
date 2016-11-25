@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+	
+	<!-- Persistent Context: defines resources applicable to the persistence layer -->
+	
+	<jpa:repositories base-package="com.acme.care.persistence" />
+	
+	<tx:annotation-driven />
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
+
+	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="showSql" value="${jpa.show-sql}"/> 
+		<property name="database" value="${jpa.database-type}"/>
+   	</bean>
+   	
+   	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+		<property name="jpaPropertyMap" ref="hibernateProperties" />
+		<property name="mappingResources" ref="mappingResources" />
+    </bean>
+    
+    <util:map id="hibernateProperties">
+   		<entry key="hibernate.format_sql" value="${jpa.hibernate.format_sql}"/>
+        <entry key="hibernate.use_sql_comments" value="${jpa.hibernate.use_sql_comments}"/>
+		<entry key="hibernate.hbm2ddl.auto" value="${jpa.hibernate.hbm2ddl.auto}"/>
+		<entry key="hibernate.dialect" value="${jpa.hibernate.dialect}"/>
+	</util:map>
+	
+	<util:list id="mappingResources">
+   		<value>mappings/User.hbm.xml</value>
+	</util:list>
+        
+    <beans profile="default">
+   		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    		<property name="url" value="${datasource.url}" />
+    		<property name="username" value="${datasource.username}" />
+        	<property name="password" value="${datasource.password}" /> 
+    	</bean>
+    </beans>
+    
+    <beans profile="test">
+ 		<jdbc:embedded-database id="dataSource" type="HSQL" database-name="care" />
+ 	</beans>
+	
+</beans>
