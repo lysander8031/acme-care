@@ -20,4 +20,6 @@ public class UserProperty {
 	
 	public static final String USER_ZIP = "94117";
 	
+	public static final Integer CARE_GIVER_AGE = 30;
+	
 }

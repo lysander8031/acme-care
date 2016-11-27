@@ -32,5 +32,29 @@
 			</component>
 		</component>
 		
+		<property name="status" column="STATUS"> 
+			<type name="org.hibernate.type.EnumType">
+        		<param name="enumClass">com.acme.care.model.user.Status</param>
+        		<param name="useNamed">true</param>
+    		</type>
+		</property>
+		
+		<joined-subclass name="CareSeeker" table="CARE_SEEKER">
+			<key column="ID" foreign-key="FK_CARE_SEEKER"/>
+			
+			<property name="careService" column="CARE_SERVICE"> 
+				<type name="org.hibernate.type.EnumType">
+        			<param name="enumClass">com.acme.care.model.user.CareServiceType</param>
+        			<param name="useNamed">true</param>
+    			</type>
+			</property>
+		</joined-subclass>
+		
+		<joined-subclass name="CareGiver" table="CARE_GIVER">
+			<key column="ID" foreign-key="FK_CARE_GIVER"/>
+			
+			<property name="age" column="AGE" type="int" /> 
+		</joined-subclass>
+		
 	</class>
 </hibernate-mapping>

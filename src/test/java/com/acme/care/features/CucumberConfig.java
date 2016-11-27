@@ -7,13 +7,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Transactional
 @ActiveProfiles("test")
-@TestPropertySource("/application-test.properties")
 @ContextConfiguration("/cucumber.xml")
 public @interface CucumberConfig { }

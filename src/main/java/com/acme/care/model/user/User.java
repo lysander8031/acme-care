@@ -7,13 +7,13 @@ import java.io.Serializable;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import com.acme.care.model.common.EntityObject;
-import com.acme.care.model.common.Immutable;
 import com.acme.care.model.specification.user.RegisteredUserSpecification;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Objects;
 
-@Immutable @EntityObject
-public class User extends AbstractPersistable<Long> implements Serializable {
+@EntityObject
+public abstract class User extends AbstractPersistable<Long> implements Serializable {
 	private static final long serialVersionUID = -4046155495724098497L;
 
 	protected Status status;
@@ -69,10 +69,12 @@ public class User extends AbstractPersistable<Long> implements Serializable {
 		return credential.getEmail();
 	}
 	
+	@Deprecated
 	public boolean isRegistered() {
 		return new RegisteredUserSpecification().isSatisfiedBy(this);
 	}
 	
+	@Deprecated
 	public void register() {
 		this.status = Status.REGISTERED;
 	}
@@ -97,12 +99,16 @@ public class User extends AbstractPersistable<Long> implements Serializable {
 	
 	@Override
 	public String toString() {
+		return toStringHelper().toString();
+	}
+
+	protected ToStringHelper toStringHelper() {
 		return MoreObjects.toStringHelper(this)
 				  .add("id", super.getId())
 				  .add("name", this.name)
+				  .add("status", this.status)
 				  .add("address", this.address)
-				  .add("credential", this.credential)
-				  .toString();
+				  .add("credential", this.credential);
 	}
-
+		
 }

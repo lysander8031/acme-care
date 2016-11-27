@@ -1,5 +1,6 @@
 package com.acme.care.service.impl;
 
+import static com.acme.care.model.user.UserService.register;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Optional;
@@ -10,15 +11,20 @@ import org.springframework.transaction.annotation.Transactional;
 import com.acme.care.model.user.User;
 import com.acme.care.persistence.UserRepository;
 import com.acme.care.service.RegistrationService;
+import com.acme.care.service.policy.RegistrationPolicy;
 
 @Service
 public class RegistrartionServiceImpl implements RegistrationService {
 
+	private final RegistrationPolicy policy;
+	
 	private final UserRepository repository;
 	
-	public RegistrartionServiceImpl(UserRepository repository) {
+	public RegistrartionServiceImpl(RegistrationPolicy policy, UserRepository repository) {
+		checkNotNull(policy);
 		checkNotNull(repository);
 		
+		this.policy = policy;
 		this.repository = repository;
 	}
 	
@@ -27,16 +33,12 @@ public class RegistrartionServiceImpl implements RegistrationService {
 	public Optional<User> register(User user) {
 		checkNotNull(user);
 		
-		if (isNotAlreadyRegistered(user))
+		if (policy.isAllowed(user))
 			return registerAndStore(user);
 			
 		return Optional.empty();
-	}
-
-	private boolean isNotAlreadyRegistered(User user) {
-		Optional<User> result = repository.findByCredentialEmail(user.getEmail());
 		
-		return ! result.isPresent();
+		//return registerFunc(user);
 	}
 	
 	private Optional<User> registerAndStore(User user) {
@@ -49,35 +51,34 @@ public class RegistrartionServiceImpl implements RegistrationService {
 	
 	// ------------------------------------------------------------
 	
-	public Optional<User> register2(User user) {
+	@Transactional
+	public Optional<User> registerFunc(User user) {
 		checkNotNull(user);
 		
-		/*return verifyUniqueness(user)
-				.map(u -> registerUser(u))
-				.map(u -> store(u));*/
+		Optional<User> result = isNotAlreadyRegistered2(user)
+					.flatMap(newUser -> register.apply(newUser)
+					.flatMap(registeredUser -> store(registeredUser)));
 		
-		verifyUniqueness(user)
-				.map(u -> registerUser(u))
-				.ifPresent(u -> store(u));
+		/*Optional<User> result = isNotAlreadyRegistered2(user)
+				.flatMap(newUser -> register.apply(newUser));*/
+				//.flatMap(registeredUser -> store(registeredUser));
 		
-		return Optional.empty();
 		
+		result.ifPresent(System.out::println);
+		
+		return result;
 	}
 	
-	public Optional<User> verifyUniqueness(User user) {
-		Optional<User> result = this.repository.findByCredentialEmail(user.getEmail());
+	private Optional<User> isNotAlreadyRegistered2(User user) {
+		Optional<User> result = repository.findByCredentialEmail(user.getEmail());
 		
 		return result.isPresent() ? Optional.empty() : Optional.of(user);
 	}
 	
-	public User registerUser(User user) {
-		user.register();
+	public Optional<User> store(User user) {
+		User savedUser = repository.save(user);
 		
-		return new User(user);
+		return Optional.of(savedUser);
 	}
-	
-	public User store(User user) {
-		return repository.save(user);
-	}
-
+		
 }

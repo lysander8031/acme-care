@@ -34,7 +34,7 @@ public class UserFactory {
 		Password password = new Password("secret");
 		Credential credential = new Credential(email, password);
 		
-		User user = new User(name, address, credential);
+		User user = new CareSeeker(name, address, credential);
 		
 		return user;
 	}
@@ -50,7 +50,7 @@ public class UserFactory {
 		Password password = new Password("strong");
 		Credential credential = new Credential(email, password);
 		
-		User user = new User(name, address, credential);
+		User user = new CareGiver(name, address, credential);
 		
 		return user;
 	}

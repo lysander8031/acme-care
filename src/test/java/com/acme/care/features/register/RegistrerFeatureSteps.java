@@ -1,8 +1,8 @@
 package com.acme.care.features.register;
 
-import static com.acme.care.model.user.builder.UserMaker.User;
+import static com.acme.care.model.user.builder.UserMaker.CareSeeker;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.natpryce.makeiteasy.MakeItEasy.an;
+import static com.natpryce.makeiteasy.MakeItEasy.a;
 import static com.natpryce.makeiteasy.MakeItEasy.make;
 
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ public class RegistrerFeatureSteps {
 	}
 	
 	public User createNotRegisteredUser() {
-		return make(an(User));
+		return make(a(CareSeeker));
 	}
 	
 	public void register(User user) {

@@ -1,6 +1,6 @@
 package com.acme.care.persistence;
 
-import static com.acme.care.model.user.builder.UserMaker.User;
+import static com.acme.care.model.user.builder.UserMaker.CareSeeker;
 import static com.natpryce.makeiteasy.MakeItEasy.an;
 import static com.natpryce.makeiteasy.MakeItEasy.make;
 import static org.junit.Assert.*;
@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.acme.care.model.user.CareSeeker;
 import com.acme.care.model.user.User;
 
 public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
@@ -23,12 +24,23 @@ public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
 	
 	@Before
 	public void setup() {
-		newUser = make(an(User));
+		newUser = make(an(CareSeeker));
 	}
 
 	@Test
 	public void saveUser() {
 		User savedUser = repository.saveAndFlush(newUser);
+		
+		List<User> result = repository.findAll();
+		
+		assertTrue(result.contains(savedUser));
+	}
+	
+	@Test
+	public void saveCareSeeker() {
+		CareSeeker careSeeker = make(an(CareSeeker));
+		
+		CareSeeker savedUser = repository.saveAndFlush(careSeeker);
 		
 		List<User> result = repository.findAll();
 		

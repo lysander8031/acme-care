@@ -1,4 +1,4 @@
-package com.acme.care.service;
+package com.acme.care.service.policy;
 
 import static com.acme.care.model.user.builder.UserMaker.CareSeeker;
 import static com.natpryce.makeiteasy.MakeItEasy.a;
@@ -17,49 +17,41 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.acme.care.model.user.User;
 import com.acme.care.persistence.UserRepository;
-import com.acme.care.service.impl.RegistrartionServiceImpl;
 import com.acme.care.service.policy.RegistrationPolicy;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RegistrationServiceTest {
-	
-	@Mock 
-	private RegistrationPolicy policy;
+public class RegistrationPolicyTest {
 	
 	@Mock 
 	private UserRepository repository;
 	
-	private RegistrationService service;
+	private RegistrationPolicy policy;
 	
 	@Before
 	public void setup() {
-		this.service = new RegistrartionServiceImpl(policy, repository);
+		this.policy = new RegistrationPolicy(repository);
 	}
 
 	@Test
-	public void shouldRegisterWhenUserNotAlreadyRegistered() {
+	public void shouldAllowToRegisterIfUserNotAlreadyRegistered() {
 		User user = make(a(CareSeeker));
 		
-		when(policy.isAllowed(any())).thenReturn(true);
+		when(repository.findByCredentialEmail(any())).thenReturn(Optional.empty());
 		
-		when(repository.save(user)).thenReturn(user);
+		boolean isAllowed = policy.isAllowed(user);
 		
-		Optional<User> registeredUser = service.register(user);
-		
-		assertTrue(registeredUser.isPresent());
+		assertTrue(isAllowed);
 	}
 	
 	@Test
-	public void shouldNotRegisterWhenUserAlreadyRegistered() {
+	public void shouldNotAllowToRegisterIfUserAlreadyRegistered() {
 		User user = make(a(CareSeeker));
 		
-		when(policy.isAllowed(any())).thenReturn(false);
+		when(repository.findByCredentialEmail(any())).thenReturn(Optional.of(user));
 		
-		when(repository.save(user)).thenReturn(user);
+		boolean isAllowed = policy.isAllowed(user);
 		
-		Optional<User> registeredUser = service.register(user);
-		
-		assertFalse(registeredUser.isPresent());
+		assertFalse(isAllowed);
 	}
-	
+
 }

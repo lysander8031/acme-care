@@ -1,13 +1,13 @@
 package com.acme.care.web.validator;
 
-import static com.acme.care.model.user.builder.UserMaker.User;
+import static com.acme.care.model.user.builder.UserMaker.CareSeeker;
 import static com.acme.care.model.user.builder.UserMaker.city;
 import static com.acme.care.model.user.builder.UserMaker.email;
 import static com.acme.care.model.user.builder.UserMaker.firstName;
 import static com.acme.care.model.user.builder.UserMaker.lastName;
 import static com.acme.care.model.user.builder.UserMaker.password;
 import static com.acme.care.model.user.builder.UserMaker.street;
-import static com.natpryce.makeiteasy.MakeItEasy.an;
+import static com.natpryce.makeiteasy.MakeItEasy.a;
 import static com.natpryce.makeiteasy.MakeItEasy.make;
 import static com.natpryce.makeiteasy.MakeItEasy.with;
 
@@ -117,47 +117,47 @@ public class UserValidatorTest extends AbstractValidatorTest {
 	}
 	
 	private void enterValidUser() {
-		this.user = make(an(User));
+		this.user = make(a(CareSeeker));
 		super.bindProperty(this.user);
 	}
 	
 	private void enterEmptyFirstName() {
-		this.user = make(an(User, with(firstName, "")));
+		this.user = make(a(CareSeeker, with(firstName, "")));
 		super.bindProperty(this.user);
 	}
 	
 	private void enterEmptyLastName() {
-		this.user = make(an(User, with(lastName, "")));
+		this.user = make(a(CareSeeker, with(lastName, "")));
 		super.bindProperty(this.user);
 	}
 	
 	private void enterEmptyStreet() {
-		this.user = make(an(User, with(street, "")));
+		this.user = make(a(CareSeeker, with(street, "")));
 		super.bindProperty(this.user);
 	}
 	
 	private void enterEmptyCity() {
-		this.user = make(an(User, with(city, "")));
+		this.user = make(a(CareSeeker, with(city, "")));
 		super.bindProperty(this.user);
 	}
 	
 	private void enterEmptyEmail() {
-		this.user = make(an(User, with(email, "")));
+		this.user = make(a(CareSeeker, with(email, "")));
 		super.bindProperty(this.user);
 	}
 	
 	private void enterInvalidEmail() {
-		this.user = make(an(User, with(email, "no@good")));
+		this.user = make(a(CareSeeker, with(email, "no@good")));
 		super.bindProperty(this.user);
 	}
 	
 	private void enterEmptyPassword() {
-		this.user = make(an(User, with(password, "")));
+		this.user = make(a(CareSeeker, with(password, "")));
 		super.bindProperty(this.user);
 	}
 	
 	private void enterWeakPassword() {
-		this.user = make(an(User, with(password, "weak")));
+		this.user = make(a(CareSeeker, with(password, "weak")));
 		super.bindProperty(this.user);
 	}
 	

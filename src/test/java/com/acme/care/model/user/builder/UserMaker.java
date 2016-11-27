@@ -6,6 +6,8 @@ import static com.acme.care.model.user.builder.PasswordMaker.*;
 import static com.acme.care.support.UserProperty.*;
 
 import com.acme.care.model.user.Address;
+import com.acme.care.model.user.CareGiver;
+import com.acme.care.model.user.CareSeeker;
 import com.acme.care.model.user.Credential;
 import com.acme.care.model.user.Email;
 import com.acme.care.model.user.Location;
@@ -36,10 +38,12 @@ public class UserMaker {
 	
 	public static final Property<User, String> password = newProperty();
 	
-	public static final Instantiator<User> User = new Instantiator<User>() {
+	public static final Property<CareGiver, Integer> age = newProperty();
+	
+	public static final Instantiator<CareSeeker> CareSeeker = new Instantiator<CareSeeker>() {
 		@Override
-		public User instantiate(PropertyLookup<User> lookup) {
-			User user = new User(
+		public CareSeeker instantiate(PropertyLookup<CareSeeker> lookup) {
+			CareSeeker user = new CareSeeker(
 					name(lookup),
 					address(lookup), 
 					credential(lookup));
@@ -48,14 +52,27 @@ public class UserMaker {
 		}
 	};
 	
-	private static Name name(PropertyLookup<User> lookup) {
+	public static final Instantiator<CareGiver> CareGiver = new Instantiator<CareGiver>() {
+		@Override
+		public CareGiver instantiate(PropertyLookup<CareGiver> lookup) {
+			CareGiver user = new CareGiver(
+					name(lookup),
+					address(lookup), 
+					credential(lookup),
+					age(lookup));
+			
+			return user;
+		}
+	};
+	
+	private static Name name(PropertyLookup<? extends User> lookup) {
 		String first = lookup.valueOf(firstName, USER_FIRST_NAME);	
 		String last = lookup.valueOf(lastName, USER_LAST_NAME);	
 		
 		return new Name(first, last);
 	}
 	
-	private static Address address(PropertyLookup<User> lookup) {
+	private static Address address(PropertyLookup<? extends User> lookup) {
 		String userStreet = lookup.valueOf(street, USER_STREET);	
 		String userCity = lookup.valueOf(city, USER_CITY);	
 		
@@ -64,7 +81,7 @@ public class UserMaker {
 		return new Address(userStreet, location);
 	}
 	
-	private static Credential credential(PropertyLookup<User> lookup) {
+	private static Credential credential(PropertyLookup<? extends User> lookup) {
 		String userEmail = lookup.valueOf(email, USER_EMAIL);	
 		String userPassword = lookup.valueOf(password, USER_PASSWORD);	
 		
@@ -72,6 +89,11 @@ public class UserMaker {
 		Password password = make(a(Password, with(PasswordMaker.value, userPassword)));
 		
 		return new Credential(email, password);
+	}
+	
+	
+	private static Integer age(PropertyLookup<CareGiver> lookup) {
+		return lookup.valueOf(age, CARE_GIVER_AGE);	
 	}
 	
 }
