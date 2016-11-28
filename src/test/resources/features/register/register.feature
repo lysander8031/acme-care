@@ -1,3 +1,4 @@
+@txn
 Feature: Register with regular account
 
 Scenario: Register a new user

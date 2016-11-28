@@ -4,13 +4,13 @@
 <hibernate-mapping  package="com.acme.care.model.user" default-access="field">
 	<class name="User" table="USERS">
 		
-		<id name="id" column="ID" type="int">
+		<id name="id" column="ID" type="long">
 			<generator class="native"/>
 		</id>
 		
 		<component name="credential" class="com.acme.care.model.user.Credential">
 			<component name="email" class="com.acme.care.model.user.Email">
-				<property name="value"		column="EMAIL" 	type="string"		not-null="true" unique="true" length="100" />
+				<property name="value"		column="EMAIL" 	type="string"		not-null="true" unique="false" length="100" />
 			</component>
 			<component name="password" class="com.acme.care.model.user.Password">
 				<property name="value"		column="PASSWORD" 	type="string"		not-null="true" 	length="100" />

@@ -41,6 +41,7 @@
 	</util:map>
 	
 	<util:list id="mappingResources">
+   		<value>mappings/Hiree.hbm.xml</value>
    		<value>mappings/User.hbm.xml</value>
 	</util:list>
         

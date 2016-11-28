@@ -2,14 +2,17 @@ package com.acme.care.model.user;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.io.Serializable;
+
 import com.acme.care.model.common.Immutable;
 import com.acme.care.model.common.ValueObject;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 @Immutable @ValueObject
-public class Location {
-	
+public class Location implements Serializable {
+	private static final long serialVersionUID = 2631789913533482967L;
+
 	private String city;
 	
 	private String state;

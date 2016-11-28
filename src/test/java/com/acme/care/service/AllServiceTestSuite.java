@@ -8,6 +8,7 @@ import com.acme.care.service.policy.RegistrationPolicyTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({
+	HireServiceTest.class,
 	RegistrationPolicyTest.class,
 	RegistrationServiceTest.class
 })

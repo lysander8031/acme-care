@@ -9,7 +9,7 @@ public class CareSeeker extends User {
 	private static final long serialVersionUID = -5460511448514629352L;
 	
 	private CareServiceType careService;
-
+	
 	protected CareSeeker() {}
 	
 	public CareSeeker(Name name, Address address, Credential credential) {
@@ -34,6 +34,10 @@ public class CareSeeker extends User {
 
 	public void setCareService(CareServiceType careService) {
 		this.careService = careService;
+	}
+	
+	public Hiree hire(CareGiver careGiver) {
+		return new Hiree(this, careGiver);
 	}
 	
 	@Override

@@ -2,7 +2,7 @@ package com.acme.care.model.user;
 
 import static com.acme.care.model.user.UserService.isRegistered;
 import static com.acme.care.model.user.UserService.register;
-import static com.acme.care.model.user.builder.UserMaker.CareSeeker;
+import static com.acme.care.model.user.builder.UserMaker.*;
 import static com.natpryce.makeiteasy.MakeItEasy.a;
 import static com.natpryce.makeiteasy.MakeItEasy.make;
 import static org.junit.Assert.*;
