@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.acme.care</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>acme-care</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -29,8 +29,9 @@
     	<hsqldb-version>2.3.4</hsqldb-version>
 		<make-it-easy.version>4.0.1</make-it-easy.version>
 		<mysql-connector.version>6.0.5</mysql-connector.version>
-		<serenity.version>1.1.37-rc.6</serenity.version>
-		<serenity-cucumber.version>1.1.8</serenity-cucumber.version>
+		<serenity.version>1.2.1-rc.6</serenity.version>
+		<serenity-maven-plugin.version>1.2.1-rc.6</serenity-maven-plugin.version>
+		<serenity-cucumber.version>1.1.13</serenity-cucumber.version>
 		<spring.version>4.3.4.RELEASE</spring.version>
 		<spring-data-jpa.version>1.10.5.RELEASE</spring-data-jpa.version>
 	</properties>
@@ -122,12 +123,32 @@
     		<version>${serenity.version}</version>
     		<scope>test</scope>
 		</dependency>
-		 <dependency>
+		<dependency>
     		<groupId>net.serenity-bdd</groupId>
     		<artifactId>serenity-cucumber</artifactId>
     		<version>${serenity-cucumber.version}</version>
     		<scope>test</scope>
-		</dependency> 
+		</dependency>
+		
+		<!--
+		<dependency>
+    		<groupId>info.cukes</groupId>
+    		<artifactId>cucumber-spring</artifactId>
+    		<version>1.2.4</version>
+		</dependency>
+		 
+		<dependency>
+    		<groupId>info.cukes</groupId>
+    		<artifactId>cucumber-java</artifactId>
+    		<version>1.2.4</version>
+		</dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>1.2.4</version>
+        </dependency> -->
+		
 		
 	</dependencies>
 
@@ -162,7 +183,7 @@
 			 <plugin>
 				<groupId>net.serenity-bdd.maven.plugins</groupId>
 				<artifactId>serenity-maven-plugin</artifactId>
-				<version>1.1.36</version>
+				<version>${serenity-maven-plugin.version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>net.serenity-bdd</groupId>
@@ -192,6 +213,5 @@
 			</testResource>
 		</testResources>
 	</build>
-
 
 </project>
