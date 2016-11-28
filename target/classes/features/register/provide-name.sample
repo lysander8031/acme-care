@@ -1,0 +1,13 @@
+Feature: Provide name when registering
+
+Scenario Outline: Name validation
+	Given Martin provides a first name with a value of <First Name> 
+	And Marting provides a last name with a value of <Last Name>
+	Then Martin should <Outcome>
+	
+	Examples: First name and last name are required
+	
+		| First Name  | Last Name	| Outcome  			      |
+		| Martin 	  | Jones 		| has first and last name |
+		| Martin  	  |  			| see an error message    |
+		| 		  	  | Jones 		| see an error message    |

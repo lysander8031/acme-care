@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping SYSTEM "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping  package="com.acme.care.model.user" default-access="field">
+	<class name="User" table="USERS">
+		
+		<id name="id" column="ID" type="long">
+			<generator class="native"/>
+		</id>
+		
+		<component name="credential" class="com.acme.care.model.user.Credential">
+			<component name="email" class="com.acme.care.model.user.Email">
+				<property name="value"		column="EMAIL" 	type="string"		not-null="true" unique="false" length="100" />
+			</component>
+			<component name="password" class="com.acme.care.model.user.Password">
+				<property name="value"		column="PASSWORD" 	type="string"		not-null="true" 	length="100" />
+			</component>
+		</component>
+		
+		<component name="name" class="com.acme.care.model.user.Name">
+			<property name="firstName"		column="FIRST_NAME" 	type="string"		not-null="true" 	length="100" />
+			<property name="lastName"		column="LAST_NAME" 		type="string"		not-null="true" 	length="100" />
+		</component>
+		
+		<component name="address" class="com.acme.care.model.user.Address">
+			<property name="street"		column="STREET" 	type="string"		not-null="true" length="100" />
+			
+			<component name="location" class="com.acme.care.model.user.Location">
+				<property name="city"		column="CITY" 	type="string"		not-null="true" 	length="100" />
+				<property name="state"		column="STATE" 	type="string"		not-null="true" 	length="2" />
+				<property name="zip"		column="ZIP" 	type="string"		not-null="true" 	length="5" />
+			</component>
+		</component>
+		
+		<property name="status" column="STATUS"> 
+			<type name="org.hibernate.type.EnumType">
+        		<param name="enumClass">com.acme.care.model.user.Status</param>
+        		<param name="useNamed">true</param>
+    		</type>
+		</property>
+		
+		<joined-subclass name="CareSeeker" table="CARE_SEEKER">
+			<key column="ID" foreign-key="FK_CARE_SEEKER"/>
+			
+			<property name="careService" column="CARE_SERVICE"> 
+				<type name="org.hibernate.type.EnumType">
+        			<param name="enumClass">com.acme.care.model.user.CareServiceType</param>
+        			<param name="useNamed">true</param>
+    			</type>
+			</property>
+		</joined-subclass>
+		
+		<joined-subclass name="CareGiver" table="CARE_GIVER">
+			<key column="ID" foreign-key="FK_CARE_GIVER"/>
+			
+			<property name="age" column="AGE" type="int" /> 
+		</joined-subclass>
+		
+	</class>
+</hibernate-mapping>

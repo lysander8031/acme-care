@@ -1,0 +1,6 @@
+Feature: Find Care Givers
+
+Scenario: Find care givers by zip code
+	Given I want to view information about care givers near zip code 94117
+	When I search based on this zip code 
+	Then I should be given a list of care givers
