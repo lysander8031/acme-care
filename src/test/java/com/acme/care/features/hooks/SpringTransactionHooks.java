@@ -43,15 +43,17 @@ public class SpringTransactionHooks { //implements BeanFactoryAware {
 
     @After(value = {"@txn"}, order = 100)
     public void rollBackTransaction() {
-       // obtainPlatformTransactionManager().rollback(transactionStatus);
-        
-       if (! transactionStatus.isCompleted()) {
-    	   obtainPlatformTransactionManager().rollback(transactionStatus);
-        }
+    	
+    	//obtainPlatformTransactionManager().rollback(transactionStatus);
+    	
+    	//if (! transactionStatus.isCompleted()) {
+    	if (transactionStatus.isRollbackOnly()) {
+    		obtainPlatformTransactionManager().rollback(transactionStatus);
+    	}
     }
 
     public PlatformTransactionManager obtainPlatformTransactionManager() {
-        if (getTxnManagerBeanName() == null) {
+    	if (getTxnManagerBeanName() == null) {
             return beanFactory.getBean(PlatformTransactionManager.class);
         } else {
             return beanFactory.getBean(txnManagerBeanName, PlatformTransactionManager.class);

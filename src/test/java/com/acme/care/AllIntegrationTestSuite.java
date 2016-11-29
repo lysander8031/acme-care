@@ -8,7 +8,6 @@ import com.acme.care.persistence.AllPersistenceTestSuite;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	//AllAcceptanceTestSuite.class,
 	AllPersistenceTestSuite.class
 })
 public class AllIntegrationTestSuite { }

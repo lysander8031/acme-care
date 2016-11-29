@@ -55,9 +55,8 @@ public class RegisterFeature {
 
 	@Then("I should not be allowed to register")
 	public void shouldNotBeAllowedToRegister() throws Throwable {
-		//throw new PendingException();
+		throw new PendingException();
 		
-		assertFalse(false);
 		//assertFalse(user.isRegistered());
 	}
 
