@@ -13,7 +13,8 @@ import com.acme.care.features.CucumberConfig;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 
-@CucumberConfig
+//@CucumberConfig
+@Deprecated
 public class SpringTransactionHooks { //implements BeanFactoryAware {
 	
 	private BeanFactory beanFactory;
@@ -21,7 +22,7 @@ public class SpringTransactionHooks { //implements BeanFactoryAware {
 	private String txnManagerBeanName;
 
    // @Override
-	@Autowired
+	//@Autowired
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
     	this.beanFactory = beanFactory;
     }
@@ -36,20 +37,20 @@ public class SpringTransactionHooks { //implements BeanFactoryAware {
 
     private TransactionStatus transactionStatus;
 
-    @Before(value = {"@txn"}, order = 100)
+    //@Before(value = {"@txn"}, order = 100)
     public void startTransaction() {
         transactionStatus = obtainPlatformTransactionManager().getTransaction(new DefaultTransactionDefinition());
     }
 
-    @After(value = {"@txn"}, order = 100)
+   // @After(value = {"@txn"}, order = 100)
     public void rollBackTransaction() {
     	
-    	//obtainPlatformTransactionManager().rollback(transactionStatus);
+    	obtainPlatformTransactionManager().rollback(transactionStatus);
     	
     	//if (! transactionStatus.isCompleted()) {
-    	if (transactionStatus.isRollbackOnly()) {
-    		obtainPlatformTransactionManager().rollback(transactionStatus);
-    	}
+    	//if (transactionStatus.isRollbackOnly()) {
+    	//	obtainPlatformTransactionManager().rollback(transactionStatus);
+    	//}
     }
 
     public PlatformTransactionManager obtainPlatformTransactionManager() {

@@ -5,6 +5,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.natpryce.makeiteasy.MakeItEasy.a;
 import static com.natpryce.makeiteasy.MakeItEasy.make;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
@@ -32,13 +34,15 @@ public class RegistrerFeatureSteps {
 		return make(a(CareSeeker));
 	}
 	
-	public void register(User user) {
-		service.register(user);
+	public Optional<User> register(User user) {
+		return service.register(user);
 	}
 	
-	public void validateRegistrationDetailsAndRegister(User user) {
+	public Optional<User> validateRegistrationDetailsAndRegister(User user) {
 		if (isValid(user))
-			register(user);
+			return register(user);
+		
+		return Optional.empty();
 	}	
 	
 	private boolean isValid(User user) {
