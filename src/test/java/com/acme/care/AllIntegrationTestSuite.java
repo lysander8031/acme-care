@@ -4,12 +4,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.acme.care.features.AllAcceptanceTestSuite;
 import com.acme.care.persistence.AllPersistenceTestSuite;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	AllAcceptanceTestSuite.class,
+	//AllAcceptanceTestSuite.class,
 	AllPersistenceTestSuite.class
 })
 public class AllIntegrationTestSuite { }

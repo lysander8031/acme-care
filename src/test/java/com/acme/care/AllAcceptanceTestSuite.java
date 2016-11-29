@@ -1,4 +1,4 @@
-package com.acme.care.features;
+package com.acme.care;
 
 import org.junit.runner.RunWith;
 
