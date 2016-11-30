@@ -160,6 +160,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                <configuration>
+               		<excludes>
+          				<exclude>**/*IntegrationTest.java</exclude>
+        			</excludes>
                     <testFailureIgnore>true</testFailureIgnore>
                     <parallel>classes</parallel>
                     <threadCount>5</threadCount>
@@ -172,11 +175,13 @@
                 <version>2.19.1</version>
                 <configuration>
                     <includes>
-                    	<include>**/*AllAcceptanceTestSuite.java</include>
+                    	<!-- <includesFile>**/AllAcceptanceTestSuite.java</includesFile> -->
+                    	<includesFile>**/AllIntegrationTestSuite.java</includesFile>
                     </includes>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>integration-test</id>
                         <goals>
                             <goal>integration-test</goal>
                             <goal>verify</goal>
@@ -208,8 +213,7 @@
 			</plugin>
 		</plugins>
 		
-		
-		 <testResources>
+		<testResources>
         	<testResource>
         		<directory>${project.basedir}/src/test/resources</directory>
       		</testResource>
