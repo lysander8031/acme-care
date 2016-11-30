@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.acme.care.model.user.User;
+import com.acme.care.persistence.UserRepository;
 import com.acme.care.service.RegistrationService;
 
 @Component
@@ -22,20 +23,24 @@ public class RegistrerFeatureSteps {
 	
 	private RegistrationService service;
 	
-	public RegistrerFeatureSteps(RegistrationService service, Validator userValidator) {
+	private UserRepository userRepository;
+	
+	public RegistrerFeatureSteps(RegistrationService service, Validator userValidator, UserRepository userRepository) {
 		checkNotNull(service);
 		checkNotNull(userValidator);
+		checkNotNull(userRepository);
 		
 		this.service = service;
 		this.userValidator = userValidator; 
+		this.userRepository = userRepository;
+	}
+	
+	public User createRegisteredUser() {
+		return userRepository.save(createNotRegisteredUser());
 	}
 	
 	public User createNotRegisteredUser() {
 		return make(a(CareSeeker));
-	}
-	
-	public Optional<User> register(User user) {
-		return service.register(user);
 	}
 	
 	public Optional<User> validateRegistrationDetailsAndRegister(User user) {
@@ -54,5 +59,8 @@ public class RegistrerFeatureSteps {
 		
 		return ! errors.hasErrors();
 	}
-
+	
+	private Optional<User> register(User user) {
+		return service.register(user);
+	}
 }

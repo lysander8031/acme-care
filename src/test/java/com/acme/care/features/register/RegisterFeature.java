@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.acme.care.features.CucumberConfig;
 import com.acme.care.model.user.User;
-import com.acme.care.persistence.UserRepository;
 
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
@@ -19,9 +18,6 @@ import cucumber.api.java.en.When;
 public class RegisterFeature {
 	
 	private User user;
-	
-	@Autowired
-	private UserRepository userRepository;
 	
 	@Autowired
 	private RegistrerFeatureSteps step;
@@ -48,8 +44,7 @@ public class RegisterFeature {
 
 	@Given("I am a registered user")
 	public void i_am_registered_user() throws Throwable {
-		user = step.createNotRegisteredUser();
-		user = userRepository.save(user);
+		user = step.createRegisteredUser();
 	}
 
 	@When("I submit already existing registration details")
